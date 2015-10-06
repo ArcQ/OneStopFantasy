@@ -1,0 +1,61 @@
+<div id = "homePage" class = "page">
+  <div class="banner container-fluid">
+    <div class ="col-md-1">
+    </div>
+    <div class ="col-md-5 bannerText">
+      <h1><b>OneStopFantasy</b></h1>
+      <h1>Stats</h1>
+      <p class="lead">
+        Our database shared with you.
+      </p>
+    </div>
+    <div class ="col-md-2">
+      <img class = "bannerBarry" src="images/barry_09.png" alt="I'm Barry!"><br>
+    </div>
+    <div class ="col-md-3">
+      <img class = "bannerBarry" src="images/barry_02.png" alt="I'm Barry!"><br>
+    </div>
+  </div>
+  <div class="container">
+    <div class = "page-header">
+      <h1>What do you need?</h1>
+    </div>
+    <div class="row marketing">
+      <p><button class="btn btn-lg btn-success" ng-click = "refreshStats('season');">Season Stats</button>
+      <button class="btn btn-lg btn-success" ng-click = "refreshStats('daily');">Daily Stats</button>
+      <button class="btn btn-lg btn-success" ng-click = "refreshStats('predictions');">Predictions</button></p>
+    </div>
+    <div class = "row">
+      <div class = "center" ng-if = "state == 'none';"><h1> Select a stat to begin!</h1></div>
+      <div id = "statsContainer" ng-if = "state != 'none';">
+          <h4>{{state}}</h4>
+          <table class="table table-striped table-hover ">
+            <thead>
+              <tr>
+                <th ng-repeat="category in categoryHeaders">Name</th>
+                <th>Points</th>
+                <th>Rebounds</th>
+                <th>Assists</th>
+                <th>3PM</th>
+                <th>Turnovers</th>
+                <th>Steals</th>
+                <th>Blocks</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="athlete in data">
+                <td>{{athlete.firstName}} {{athlete.lastName}}</td>
+                <td>{{athlete.seasonaverages.points.toFixed(2)}}</td>
+                <td>{{athlete.seasonaverages.rebounds.toFixed(2)}}</td>
+                <td>{{athlete.seasonaverages.assists.toFixed(2)}}</td>
+                <td>{{athlete.seasonaverages.threePointsMade.toFixed(2)}}</td>
+                <td>{{athlete.seasonaverages.turnovers.toFixed(2)}}</td>
+                <td>{{athlete.seasonaverages.steals.toFixed(2)}}</td>
+                <td>{{athlete.seasonaverages.blocks.toFixed(2)}}</td>
+              </tr>
+            </tbody>
+          </table>
+    </div>
+  </div>
+  
+</div>

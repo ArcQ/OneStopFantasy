@@ -1,0 +1,242 @@
+<div id ="assistantPage" class = "page">
+  <link rel="stylesheet" href="styles/assistant.css">
+  <script src="bower_components/gaussian/lib/gaussian.js"></script>
+  
+
+  <div class="container-fluid" style = "padding:0;">
+
+    <div id = "sideControl" style = "padding:0;" class ="col-md-3 col-sm-4">
+
+      <div id = 'beginPage' ng-show = "state.control  == 'begin'">
+        <center >
+          <div class = 'circleBackground'>
+            <center>
+              <img src="images/barry_08.png" alt="I'm Barry!"><br>
+            </center>
+          </div>
+          <h3>OneStopFantasy</h3>
+          <h1><b>Assistant</b></h1>
+          <p>Helping you make more confident decisions.</p>
+          <p>
+            <button ng-show = "isSynced" class="btn btn-lg btn-success" ng-click = "changeStateControl('team')">Begin</button>
+            <button class="btn btn-lg btn-success" ng-click = "oauthUser()">
+              <span ng-show = "!isSynced">Sync With Yahoo</span>
+              <span ng-show = "isSynced">Resync</span>
+            </button>
+          </p>
+        </center>
+      </div>
+
+      <div id = 'teamPage' class = 'sideControl' ng-show = "state.control == 'team'">
+            
+            <center class = "sideBarBranding">
+              <div class = 'circleBackground' style = "">
+                <img src="images/barry_08.png" alt="I'm Barry!"><br>
+              </div>
+              <div class = "title">
+                <h4>OneStopFantasy</h4>
+                <h2><b>Assistant</b></h2>
+              </div>
+            </center>
+
+            <div class = "header">
+              <button ng-click= "clickBack()" class = 'backButton'><</button><h4>My Teams</h4>
+            </div>
+            <div class = 'control'>
+              <div ng-if = "state.control  != 'none';" ng-repeat = "team in data.team">
+                <button ng-click = "setTeam(team.fantasyTeam[0].pk)">
+                  {{team.fantasyTeam[0].fields.teamName}}
+                </button>
+                <div class = "dropOut" ng-show = "state.team_Id == team.fantasyTeam[0].pk">
+                  <button ng-click="changeStatePanel('teamPerformance')">Performance</button>
+                  <button ng-click="changeStateControl('decision')">Decisions</button>
+                </div>
+              </div>
+            </div>
+
+            <h4 class = "botBranding">OneStopFantasy<b>Assistant</b></h4>
+
+      </div>
+
+       <div id = 'decisionsPage' class = 'sideControl' ng-show = "state.control == 'decision'">
+        <center class = "sideBarBranding">
+          <div class = 'circleBackground' style = "">
+            <img src="images/barry_08.png" alt="I'm Barry!"><br>
+          </div>
+          <div class = "title">
+            <h4>OneStopFantasy</h4>
+            <h2><b>Assistant</b></h2>
+          </div>
+        </center>
+
+        <div class = "header">
+          <button class = 'backButton'ng-click= "clickBack()"><</button>
+          <h4>My Decisions<button id = 'settingsButton' ng-click="changeStatePanel('customize')"></button></h4>
+        </div>
+        <div class = 'control'>
+          <div ng-show = "state.control  != 'none'" ng-repeat = "team in data.team">
+            <div ng-show = "state.team_Id == team.fantasyTeam[0].pk">
+              <div ng-repeat = "decision in team.algorithmResult.decisions">
+                <button ng-click = "setDecision(decision)">
+                  <div>{{decision.add.firstName}} {{decision.add.lastName}}</div>
+                  <div style = "color:#bf3e11">{{decision.drop.firstName}} {{decision.drop.lastName}}</div>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div id = "rightPanel" class ="col-md-8 col-md-offset-3 " style = "overflow-y:scroll;">
+      
+<!--       <div id = "panelControl" >
+        <div class = "page-header">
+          <button class = 'btn btn-large'>Team Performance</button>
+          <button class = 'btn btn-large'>Add/Drop Analysis</button>
+          <button class = 'btn btn-large'>Recalculate</button>
+        </div>
+      </div> -->
+
+      <div id = "beginPanel" ng-show = "state.panel == 'none'">
+          <div class = 'circleBackground'>
+            <img src="images/barry_03.png" alt="I'm Barry!"><br>
+            <div id = "title"><h3>How can we help?</h3></div>
+
+          </div>
+      </div>
+
+      <div id = "teamPerformance" ng-if = "state.panel == 'teamPerformance'">
+
+        <div ng-repeat="team in data.team" ng-show = "true" ng-if = "state.team_Id == team.fantasyTeam[0].pk">
+          <div class = "panelHead col-md-12" >
+            <div style = "width:70%;display:inline-block;border-right:5px solid white">
+              <h1>{{team.fantasyTeam[0].fields.teamName}}</h1>
+              <p style = "color:#666">Matchup: {{team.algorithmResult.opponentName}}</p>
+            </div>
+
+            <div style = "width:20%;display:inline-block;">
+              <div style = "font-size:3vw; color:#38b44a;padding-left:10px;">{{team.algorithmResult.winProbability.toFixed(2)*100}}%</div>
+              <div style = "color:#666">chance of winning this week!</div>
+            </div>
+          </div>
+
+          <table class="table table-striped table-hover ">
+            <thead>
+              <tr>
+                <th>
+                <th ng-repeat="category in categoryHeaders">{{category}}</th>              
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th class = "rowHeader">Total Results</th>
+                <td ng-repeat="stat in team.algorithmResult.comparison"><span ng-class = "statClass(stat)">{{stat.toFixed(2)}}</span></td>
+              </tr>
+              <tr>
+                <th class = "rowHeader">Win Probability</th>
+                <td ng-repeat="stat in team.algorithmResult.categoryProbability"><span ng-class = "statClass(stat)">{{stat.toFixed(2)*100}}%</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div id = "statsContainer" ng-repeat = "team in data.team">
+          <div ng-if = "state.team_Id == team.fantasyTeam[0].pk">
+            <div class = "page-header">
+              <h1>My Roster</h1>
+            </div>
+            <table class="table table-striped table-hover ">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th ng-repeat="category in categoryHeaders">{{category}}</th>           
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="athlete in team.roster">
+                  <td>{{athlete.athlete[0].fields.firstName}} {{athlete.athlete[0].fields.lastName}}</td>
+                  <td ng-repeat="category in statList">{{athlete.averageStats[0].fields[category].toFixed(2)}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+
+
+      <div id = "customizePanel" ng-show = "state.panel == 'customize'">
+        <div class = "page-header">
+            <h1>Customize</h1>
+        </div>
+        <div class = "col-md-6">
+          <h3>Long Term Factor</h3>
+          <p>The higher this factor, the more you care about the long term effects!</p>
+          {{percentLongRange}}
+            <slider floor="0" ceiling="100" step="20" precision="2" ng-model="percentLongRange"></slider>
+        </div>
+        <div class = "col-md-6">
+          <h3>Stat Type</h3>
+          <p>What type of stats would you like to use for the algorithm?</p>
+
+          <select class ="form-control" id="select" ng-model="averageType">
+            <option value="5" >Last Five Game Averages</option>
+            <option value="10" >Last Ten Game Averags</option>
+            <option value="'none'" >SeasonAverages</option>
+          </select>
+        </div>
+        <div class= "row">
+          <div class = "col-md-6">
+            <button class="btn btn-lg btn-success" ng-click = "recalculate()">
+              <span ng-show = "isSynced">Recalculate Decisions!</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div id = "decisionPanel" ng-show = "state.panel == 'decision'">
+                
+                  <div class = "page-header">
+                    <div class = "panelHead " style = "background:none" >
+                      <div class = "col-md-6"style = "padding:20px;background-color: #5BD699;display:inline-block;border-right:5px solid white">
+                        <h3>Add {{dataDecision.add.firstName+ ' '+ dataDecision.add.lastName}}</h3>
+                        <p style = "color:#666">Points: {{dataDecision.add['points']}}  Rebounds: {{dataDecision.add['rebounds']}}  assists: {{dataDecision.add['assists']}}</p>
+                      </div>
+
+                      <div class = "col-md-6" style = "padding:20px;display:inline-block;background-color:#F7B19C;">
+                        <div style = "font-size:3vw; padding-left:10px;">                      <h3>Drop {{dataDecision.drop.firstName + ' '+dataDecision.drop.lastName }}</h3>
+
+                        </div>
+                        <p style = "color:#666">Points: {{dataDecision.drop['points']}}  Rebounds: {{dataDecision.drop['rebounds']}}  assists: {{dataDecision.drop['assists']}}</p>
+                      </div>
+                    </div>
+
+                    <div class = "col-md-6">
+                    </div>
+                    <div class = "col-md-6">
+                    </div>
+                  </div>
+                  <table class="table table-striped table-hover ">
+                    <thead>
+                      <tr>
+                        <th></th>
+                        <th ng-repeat="category in categoryHeaders">{{category}}</th>                     
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <th>Stat Differences</th>
+                        <td ng-repeat="stat in statList" ng-class = "statClass(dataDecision.add[stat]-dataDecision.drop[stat])">{{getAthleteComparison(stat)}}</td>
+                      </tr>
+
+                    </tbody>
+                  </table>
+                  Stat Comparison {{state.stat}}
+                  <select class ="form-control" ng-options = "stat for stat in statList" id="select" ng-model="state.stat" ng-change="changeChart()">
+                  </select>
+                  <div google-chart chart="chartObject" style="{{chartObject.cssStyle}}"></div>
+      </div>
+  </div>
+
+</div>

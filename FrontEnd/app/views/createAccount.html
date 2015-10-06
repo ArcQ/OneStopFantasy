@@ -1,0 +1,181 @@
+<div class = "page">
+  <div class="container">
+    <div class="row" >
+      <div class ="col-md-6"
+        style = "padding-top:100px">
+        <h1>Welcome to <b>OneStopFantasy</b></h1>
+        <p class="lead">
+          Helping you make more confident fantasy decisions.
+        </p>
+        <p>
+           Are you still deciding whether the choice you made in choosing which player to add from the free agency pool is the right choice? Are you confident that the choice you made will increase the chances of you winning your current week of play and your long term goal of making the playoffs? 
+If not, and would like some assistance in making more confidence decisions, One Stop Fantasy Assistant is the right choice for Yahoo Head-Head Fantasy Basketball players. Sign up now and check out the decisions this application can help you make while syncing with your Yahoo account, view expected player performance and live player stats. It’s FREE!
+       </p>
+      </div>
+      <div class ="col-md-6" 
+        style = "padding:30px;">
+          <span>
+            <h2>Join Us, Its Free!</h2>
+          </span>
+          <form name = "signUpForm" id = "signUpForm">
+            <div>
+              <label for="inputUsername">
+                Username
+              </label>
+              <div>
+                  <input style = "width:76%; display:inline-block;" 
+                    type="text" 
+                    class="form-control" 
+                    id="inputUsername" 
+                    placeholder="Username" 
+                    ng-model="inputData.username"
+                    name = "usernameField"
+                    ng-minlength=4
+                    ng-focus
+                    ng-unique
+                    required
+                    ng-change = "usernameChanged()">
+                  <button style = "width:13%;" 
+                    class = "btn btn-success" 
+                    ng-click = "checkAvailability()">Check
+                  </button>
+                  <span ng-show="signUpForm.usernameField.$valid && isUsernameUnique">
+                    <img src ="/onestopfantasy/images/check-icon.png">
+                  </span>
+                    <div class="alert alert-danger" 
+                        ng-show="signUpForm.usernameField.$error.required && signUpForm.usernameField.$dirty && submitted">
+                        Your username is required.
+                    </div>
+                    <div class="alert alert-danger" 
+                        ng-show="signUpForm.usernameField.$error.minlength && signUpForm.usernameField.$dirty && !signUpForm.usernameField.$focused">
+                        Your username must be at least 4 characters.                  
+                    </div>
+                    <div class="alert alert-danger" 
+                        ng-show="signUpForm.usernameField.$error.uniqueName && signUpForm.usernameField.$dirty && !signUpForm.usernameField.$focused">
+                        Your username has already been taken! Please try another one!                  
+                    </div>
+              </div>
+            </div>
+
+            <div>
+              <label for="inputPassword" 
+                    class="">Password
+              </label>
+              <div>
+                  <input type="password" 
+                    class="form-control" 
+                    id="inputPassword"
+                    name="passwordField" 
+                    placeholder="Password" 
+                    ng-model="inputData.password" 
+                    ng-minlength=8
+                    required
+                    ng-focus>
+                  <span ng-show="signUpForm.passwordField.$valid">
+                    <img src ="/onestopfantasy/images/check-icon.png">
+                  </span>
+              </div>
+              <div class="alert alert-danger" 
+                  ng-show="signUpForm.passwordField.$error.required && signUpForm.passwordField.$dirty && submitted">
+                  Your password is required.
+              </div>
+              <div class="alert alert-danger" 
+                  ng-show="signUpForm.passwordField.$error.minlength && signUpForm.passwordField.$dirty && !signUpForm.passwordField.$focused">
+                  Your password must be at least 8 characters.                  
+              </div>
+            </div>
+
+            <div>
+              <label for="inputConfirmPassword" 
+                class="">Confirm Password</label>
+              <div class="">
+                  <input type="password" 
+                    class="form-control" 
+                    id="inputConfirmPassword" 
+                    name="confirmPasswordField" 
+                    placeholder="Confirm Password" 
+                    ng-model="inputData.passwordConfim" 
+                    same-as="inputData.password"
+                    required
+                    ng-focus>
+                  <span ng-show="signUpForm.confirmPasswordField.$valid">
+                    <img src ="/onestopfantasy/images/check-icon.png">
+                  </span>
+              </div>
+               <div class="alert alert-danger" 
+                      ng-show="signUpForm.confirmPasswordField.$error.match && signUpForm.confirmPasswordField.$dirty && !signUpForm.confirmPasswordField.$focused">
+                      Your passwords must match! 
+              </div>
+            </div>
+
+            <div>
+              <label for="inputEmail" 
+                class="">Email
+              </label>
+              <div>
+                  <input class="form-control" 
+                    ng-class="{error: inputData.email.$dirty && inputData.email.$invalid}" 
+                    type="email" 
+                    placeholder="email" 
+                    name="emailField" 
+                    ng-model="inputData.email" 
+                    ng-minlength=3 
+                    required 
+                    ng-focus />
+                  <span ng-show="signUpForm.emailField.$valid">
+                    <img src ="/onestopfantasy/images/check-icon.png">
+                  </span>
+
+                  <div class="alert alert-danger" 
+                    ng-show="signUpForm.emailField.$dirty && signUpForm.emailField.$error.email && !signUpForm.emailField.$focused">
+                    You must use a valid email.
+                  </div>
+                  <div class="alert alert-danger" 
+                      ng-show="signUpForm.emailField.$error.required && signUpForm.emailField.$dirty && submitted">
+                      Your email is required.
+                  </div>
+                  <div class="alert alert-danger" 
+                      ng-show="signUpForm.emailField.$error.minlength && signUpForm.emailField.$dirty && !signUpForm.emailField.$focused">
+                      You must use a valid email.                  
+                  </div>
+
+              </div>
+            </div>
+
+            <div>
+              <label for="inputEmailConfirm" 
+                class="">Confirm Email
+              </label>
+              <div>
+                  <input type="email" 
+                    class="form-control" 
+                    id="inputEmailConfirm" 
+                    placeholder="Password" 
+                    ng-model="inputData.emailConfirm" 
+                    required
+                    name = "emailConfirmField"
+                    same-as="inputData.email"
+                    ng-focus>
+                  <span ng-show="signUpForm.emailConfirmField.$valid">
+                    <img src ="/onestopfantasy/images/check-icon.png">
+                  </span>
+              </div>
+               <div class="alert alert-danger" 
+                      ng-show="signUpForm.emailConfirmField.$error.match && signUpForm.emailConfirmField.$dirty && !signUpForm.emailConfirmField.$focused">
+                      Your emails must match! 
+              </div>
+
+              <div style = "padding-top:10px">
+                  <button type="submit" 
+                    class="btn btn-default" 
+                    ng-click="checkSignUpFormValidated()">Sync With Yahoo
+                  </button>
+              </div>
+            </div>
+
+          </form>
+      </div>
+    </div>
+  </div>
+  
+</div>

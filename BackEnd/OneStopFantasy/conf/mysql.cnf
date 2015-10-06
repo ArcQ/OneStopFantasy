@@ -1,0 +1,5 @@
+[client]
+database = django_db
+user = dev
+password = fypd5145
+default-character-set = utf8

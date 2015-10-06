@@ -1,0 +1,131 @@
+<!doctype html>
+<html class="no-js">
+  <head>
+    <base href="/onestopfantasy/">
+    <meta charset="utf-8">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="styles/bootstrap.css">
+
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+    <!-- build:css(.) styles/vendor.css -->
+    <!-- bower:css -->
+    <!-- endbower -->
+    <!-- endbuild -->
+    <!-- build:css(.tmp) styles/main.css -->
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/angular-slider.css">
+    <!-- endbuild -->
+  </head>
+  <body ng-app="frontEndApp" ng-controller="MainCtrl">
+
+    <!-- navbar -->
+    <div class="navbar navbar-default navbar-fixed-top">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="mainNav">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="/onestopfantasy">OneStopFantasy</a>
+      </div>
+      <div id = "mainNav" class="navbar-collapse collapse navbar-responsive-collapse">
+        <ul class="nav navbar-nav">
+          <li><a href="/onestopfantasy/assistant">Assistant</a></li>
+          <li><a href="/onestopfantasy/contact">Contact</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right" ng-if = "isGuest ==true;">
+          <li><a href="/onestopfantasy/createAccount">Join</a></li>
+          <li><a href="#" ng-click = "toggleLogin()">Sign In</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right" ng-if = "isGuest ==false;">
+          <li class = "dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="download" aria-expanded="false">{{currentUsername}} <span class="caret"></span></a>
+            <ul class="dropdown-menu" aria-labelledby="download">
+              <li><a href="#" ng-click = "logout()">Sign Out</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div>
+      <div id = "loginOverlay" class = "overlay" ng-if = "isLogin==true;">
+        <div style = "padding:30px;">
+          <span style = "color:white"><h2>Sign In</h2></span>
+             <div class="form-group">
+                  <label for="inputUsername" class="">Username</label>
+                  <div class="">
+                      <input type="text" class="form-control" id="inputUsername" placeholder="Username" ng-model="login.email">
+                  </div>
+              </div>
+              <div class="form-group">
+                  <label for="inputPassword" class="">Password</label>
+                  <div class="">
+                      <input type="password" class="form-control" id="inputPassword" placeholder="Password" ng-model="login.password">
+                  </div>
+              </div>
+              <div class="form-group">
+                  <div class="col-sm-offset-4 col-sm-10">
+                      <button type="submit" class="btn btn-default" ng-click="logIn(login.email, login.password)">Log In</button>
+                      <button class="btn btn-default" ng-click="cancelOverlay()">Cancel</button>
+                  </div>
+              </div>
+
+        </div>
+      </div>
+    </div>
+    <div id = "loadingOverlay" class = "overlay" style = "background:white" ng-if = "isLoading == true;">  
+      <span id="bowlG" style = "display:inline-block">
+        <div id="bowl_ringG">
+          <div class="ball_holderG">
+            <div class="ballG">
+            </div>
+          </div>
+        </div>
+      </span>
+      <h1 style = "">Please Wait ...</h1> 
+    </div>
+    <div ng-view=""></div>
+
+    <div class="footer row">
+    </div>
+
+    <!-- build:js(.) scripts/oldieshim.js -->
+    <!--[if lt IE 9]>
+    <script src="bower_components/es5-shim/es5-shim.js"></script>
+    <script src="bower_components/json3/lib/json3.js"></script>
+    <![endif]-->
+    <!-- endbuild -->
+
+    <!-- build:js(.) scripts/vendor.js -->    
+
+    <!-- bower:js -->    
+    <script src="bower_components/gaussian/lib/gaussian.js"></script>
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/angular-animate/angular-animate.js"></script>
+    <script src="bower_components/angular-cookies/angular-cookies.js"></script>
+    <script src="bower_components/angular-resource/angular-resource.js"></script>
+    <script src="bower_components/angular-route/angular-route.js"></script>
+    <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+    <script src="bower_components/angular-touch/angular-touch.js"></script>
+    <script src="bower_components/angular-google-charts/ng-google-chart.js"></script>
+    <script src="scripts/slider.js"></script>
+    <!-- endbower -->
+    <!-- endbuild -->
+
+        <!-- build:js({.tmp,app}) scripts/scripts.js -->
+        <script src="scripts/app.js"></script>
+        <script src="scripts/controllers/main.js"></script>
+        <script src="scripts/controllers/assistant.js"></script>
+        <script src="scripts/controllers/stats.js"></script>
+        <script src="scripts/services/loginService.js"></script>     
+        <script src="scripts/controllers/createAccount.js"></script>        
+        <script src="scripts/directives/ngFocus.js"></script> 
+        <script src="scripts/controllers/sync.js"></script>    
+
+        <!-- endbuild -->
+</body>
+</html>
